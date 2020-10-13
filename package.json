@@ -6,7 +6,8 @@
   "engines": {
     "node": "12.18.3",
     "npm": "6.14.6"
-  },  "scripts": {
+  },
+  "scripts": {
     "test": "mocha --require test/setup.js",
     "dev": "nodemon src/server.js",
     "migrate": "postgrator --config postgrator-config.js",
