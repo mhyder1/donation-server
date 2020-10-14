@@ -4,17 +4,28 @@ const AuthService = require("./auth-service");
 const authRouter = express.Router();
 const jsonBodyParser = express.json();
 
-authRouter 
-    .route('/token')
-    .post(jsonBodyParser, async (req, res, next) => {
-        const { username, password } = req.body 
-        const loginUser = { username, password }
+authRouter
+  .route("/token")
+  .post(jsonBodyParser, async (req, res, next) => {
+    const { username, password } = req.body;
+    const loginUser = { username, password };
 
-        for (const [key, value] of Object.entries(loginUser))
-            if(value == null)
-                return res.status(400).json({
-                    error: `Missing '${key} in request body`
-                })
-    })
+    for (const [key, value] of Object.entries(loginUser))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key} in request body`,
+        });
+  })
 
-    
+  .put(requireAuth, (req, res) => {
+    const sub = req.user.username;
+    const payload = {
+      user_id: req.user.id,
+      name: req.user.name,
+    };
+    res.send({
+      authToken: AuthService.createJwt(sub, payload),
+    });
+  });
+
+module.exports = authRouter;
