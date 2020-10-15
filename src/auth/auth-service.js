@@ -9,17 +9,21 @@ const AuthService = {
   },
 
   async loginUser(db, username, password) {
-    const authRow = await db("user")
-      .where({ username })
-      .join("auth", "user.id", "auth.uid")
-      .select("auth.data", "user.id", "user.label")
-      .first();
+    try {
+      const authRow = await db("user")
+        .where({ username })
+        .join("auth", "user.id", "auth.uid")
+        .select("auth.data", "user.id", "user.label")
+        .first();
 
-    const success= !!authRow && bcrypt.compare(password, authRow.data);
-
-    return success ? authRow : null
+      const success =
+        !!authRow && (await bcrypt.compare(password, authRow.data));
+      console.log(success);
+      return success ? authRow : null;
+    } catch (error) {
+      throw error;
+    }
   },
-
 
   createJwt(subject, payload) {
     return jwt.sign(payload, config.JWT_SECRET, {

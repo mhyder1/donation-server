@@ -30,6 +30,5 @@ app.use(function errorHandler(error, req, res, next) {
 });
 
 app.use("/api/auth", authRouter);
-app.use("/api/");
 
 module.exports = app;
