@@ -37,11 +37,11 @@ authRouter
         authToken: AuthService.createJwt(sub, payload),
       })
     } catch (error) {
-      next(error)
+      next()
     }
         
 
-    // }
+
 
   })
 
