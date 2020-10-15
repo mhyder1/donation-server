@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const authRouter = require("./auth-router");
 
 const AuthService = {
   getUserWithUserName(db, username) {
@@ -11,17 +12,14 @@ const AuthService = {
     const authRow = await db("user")
       .where({ username })
       .join("auth", "user.id", "auth.uid")
-      .select("auth.data")
-      //ask for the one record and wont give that record unless it is auth. Determine if that password matches the one record in the database.
+      .select("auth.data", "user.id", "user.label")
       .first();
-      //if this AND that = && 
-      //if authRow AND bcrypt compare, then login 
-      //!! = bangbang; confirms that the boolean is true. If it is a false, it will fail and we wont be able to log in. 
-      // First bang is a boolean and then it flips it back ????? That is converting to boolean 
-      //Opposite of an object is false and then converts it back to a true. Authrow not equal to null. 
-    
-    return !!authRow && bcrypt.compare(password, authRow.data);
+
+    const success= !!authRow && bcrypt.compare(password, authRow.data);
+
+    return success ? authRow : null
   },
+
 
   createJwt(subject, payload) {
     return jwt.sign(payload, config.JWT_SECRET, {
