@@ -1,8 +1,8 @@
 require('dotenv').config();
 
-const { NODE_ENV, DB_URL, TEST_DB_URL } = process.env;
+const { NODE_ENV, DATABASE_URL, TEST_DATABASE_URL } = process.env;
 
-const connectionString = (NODE_ENV === 'test') ? TEST_DB_URL : DB_URL;
+const connectionString = (NODE_ENV === 'test') ? TEST_DATABASE_URL : DATABASE_URL;
 
 if(!connectionString || !connectionString.startsWith('postgresql:'))
   throw Error("Database not specified in current environment");
