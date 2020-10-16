@@ -5,6 +5,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require("./config");
 const authRouter = require("./auth/auth-router");
+const userRouter = require("./registration/registration-router");
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use(function errorHandler(error, req, res, next) {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/registration", userRouter);
 
 module.exports = app;

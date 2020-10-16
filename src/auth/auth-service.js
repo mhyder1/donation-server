@@ -18,7 +18,6 @@ const AuthService = {
 
       const success =
         !!authRow && (await bcrypt.compare(password, authRow.data));
-      console.log(success);
       return success ? authRow : null;
     } catch (error) {
       throw error;
