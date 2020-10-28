@@ -7,6 +7,7 @@ const { NODE_ENV } = require("./config");
 const authRouter = require("./auth/auth-router");
 const userRouter = require("./registration/registration-router");
 const siteRouter = require("./site/site-router");
+const placesRouter = require('./places/places-router')
 
 const app = express();
 
@@ -35,5 +36,6 @@ app.use(function errorHandler(error, req, res, next) {
 
 app.use("/api/auth", authRouter);
 app.use("/api/registration", userRouter);
+app.use("/api/places", placesRouter);
 
 module.exports = app;
